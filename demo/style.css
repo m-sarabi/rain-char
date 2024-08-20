@@ -6,6 +6,7 @@ body {
     display: flex;
     justify-content: start;
     align-items: start;
+    font-family: monospace;
 }
 
 #rain {

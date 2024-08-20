@@ -1,6 +1,7 @@
 const rain = new RainChar({
     id: 'rain',
-    parent_id: 'effect',
+    font: 'cursive',
+    parentId: 'effect',
 });
 rain.start();
 
