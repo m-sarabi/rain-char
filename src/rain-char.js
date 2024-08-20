@@ -18,20 +18,20 @@ class RainChar {
      * @param {string} fg Font color
      * @param {string} [id] id of the canvas
      * @param {number} fps max frames per second
-     * @param {number} density_factor Defines how dense rain fall is, lower value means less characters
-     * @param {string} parent_id
+     * @param {number} densityFactor Defines how dense rain fall is, lower value means less characters
+     * @param {string} parentId The id of the parent element. If defined, the canvas will be appended to that element as a child.
      */
     constructor(
         {
-            font = 'Consolas',
+            font = 'monospace',
             charSize = [10, 40],
             charRange = [0x0021, 0x007e],
             bg = '#222',
             fg = 'yellow',
             id,
             fps = 40,
-            density_factor = 4,
-            parent_id,
+            densityFactor = 4,
+            parentId: parentId,
         } = {},
     ) {
         this._font = font;
@@ -42,7 +42,7 @@ class RainChar {
         this._isPaused = false;
 
         this._fps = fps || 40;
-        this._density_factor = density_factor || 4;
+        this._densityFactor = densityFactor || 4;
 
         this._lastFrameTime = 0;
         this._frameInterval = 1000 / this._fps;
@@ -54,8 +54,8 @@ class RainChar {
 
         this._size = [this._canvas.offsetWidth, this._canvas.offsetHeight];
 
-        parent_id
-            ? document.getElementById(parent_id).appendChild(this._canvas)
+        parentId
+            ? document.getElementById(parentId).appendChild(this._canvas)
             : document.body.appendChild(this._canvas);
 
         this._ctx.fillStyle = this._bg;
@@ -104,7 +104,7 @@ class RainChar {
 
         this._ctx.drawImage(tempCanvas, 0, 0);
 
-        this.rainCount = Math.floor(this._size[0] * this._size[1] / (Math.max(...this._charSize) ** 2 * this._density_factor));
+        this.rainCount = Math.floor(this._size[0] * this._size[1] / (Math.max(...this._charSize) ** 2 * this._densityFactor));
         this._particles.sort((a, b) => a['x'] - b['x']);
         while (this._particles.length > this.rainCount) {
             this._particles.pop();
