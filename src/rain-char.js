@@ -30,7 +30,7 @@ class RainChar {
             fg = 'yellow',
             id,
             fps = 40,
-            densityFactor = 4,
+            densityFactor = 10,
             parentId: parentId,
         } = {},
     ) {
@@ -104,7 +104,7 @@ class RainChar {
 
         this._ctx.drawImage(tempCanvas, 0, 0);
 
-        this.rainCount = Math.floor(this._size[0] * this._size[1] / (Math.max(...this._charSize) ** 2 * this._densityFactor));
+        this.rainCount = Math.floor(this._size[0] * this._size[1] / (((this._charSize[0] + this._charSize[1]) / 3) ** 2 * this._densityFactor));
         this._particles.sort((a, b) => a['x'] - b['x']);
         while (this._particles.length > this.rainCount) {
             this._particles.pop();
