@@ -1,0 +1,25 @@
+body {
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+#rain {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#effect {
+    width: 600px;
+    height: 600px;
+    resize: both;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 4px solid red;
+}
