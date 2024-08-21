@@ -5,21 +5,20 @@
  * Released under MIT license
  */
 
-
 'use strict';
 
 class RainChar {
     /**
-     *
-     * @param {string} font The font used for raining characters
-     * @param {[number, number]} charSize The upper and lower limit for the font size
-     * @param {[number, number]} charRange The range of Unicode character codes to be used
-     * @param {string} bg Background color
-     * @param {string} fg Font color
-     * @param {string} [id] id of the canvas
-     * @param {number} fps max frames per second
-     * @param {number} densityFactor Defines how dense rain fall is, lower value means less characters
-     * @param {string} parentId The id of the parent element. If defined, the canvas will be appended to that element as a child.
+     * @param {Object} options Configuration options for the rain effect.
+     * @param {string} [options.font='monospace'] The font used for raining characters.
+     * @param {[number, number]} [options.charSize=[10, 40]] The upper and lower limit for the font size.
+     * @param {[number, number]} [options.charRange=[0x0021, 0x007e]] The range of Unicode character codes to be used.
+     * @param {string} [options.bg='#222'] Background color.
+     * @param {string} [options.fg='yellow'] Font color.
+     * @param {string} [options.id] ID of the canvas element.
+     * @param {number} [options.fps=30] Max frames per second.
+     * @param {number} [options.densityFactor=10] Defines how dense the rain falls; lower value means more characters.
+     * @param {string} [options.parentId] The ID of the parent element. If defined, the canvas will be appended to that element as a child.
      */
     constructor(
         {
@@ -31,55 +30,60 @@ class RainChar {
             id,
             fps = 30,
             densityFactor = 10,
-            parentId: parentId,
-        } = {},
-    ) {
+            parentId,
+        } = {}) {
         this._font = font;
         this._charSize = charSize.sort((a, b) => a - b);
         this._charRange = charRange.sort((a, b) => a - b);
         this._bg = bg;
         this._fg = fg;
         this._isPaused = false;
-
         this._fps = fps || 40;
         this._densityFactor = densityFactor || 4;
 
-        this._lastFrameTime = 0;
+        this._initializeCanvas(id, parentId);
+        this._initializeProperties();
+        this._setupResizeObserver();
 
-        this._particles = [];
+        this._play = this._play.bind(this);
+    }
+
+    _initializeCanvas(id, parentId) {
         this._canvas = document.createElement('canvas');
         if (id) this._canvas.setAttribute('id', id);
         this._ctx = this._canvas.getContext('2d');
-
         this._size = [this._canvas.offsetWidth, this._canvas.offsetHeight];
 
-        parentId
-            ? document.getElementById(parentId).appendChild(this._canvas)
-            : document.body.appendChild(this._canvas);
+        const parentElement = parentId ? document.getElementById(parentId) : document.body;
+        parentElement.appendChild(this._canvas);
 
         this._ctx.fillStyle = this._bg;
         this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
+    }
 
+    _initializeProperties() {
+        this._lastFrameTime = 0;
+        this._particles = [];
+    }
+
+    _setupResizeObserver() {
         new ResizeObserver(this._onResize.bind(this)).observe(this._canvas);
-        this._play = this._play.bind(this);
     }
 
     _newParticle() {
         return {
-            x: Math.random() * (this._size[0]),
+            x: Math.random() * this._size[0],
             y: -Math.random() * this._size[1],
-            size: this._getRandomDistance(...this._charSize),
+            size: this._getRandomDistance(),
         };
     }
 
     _updateParticles() {
         this._particles.forEach(particle => {
-            if (particle['y'] > this._size[1]) {
-                particle['x'] = Math.random() * (this._size[0]);
-                particle['y'] = -Math.random() * this._size[1];
-                particle['size'] = this._getRandomDistance(...this._charSize);
+            if (particle.y > this._size[1]) {
+                Object.assign(particle, this._newParticle());
             } else {
-                particle['y'] += particle['size'];
+                particle.y += particle.size;
             }
         });
     }
@@ -92,19 +96,22 @@ class RainChar {
         tempCanvas.width = oldSize[0];
         tempCanvas.height = oldSize[1];
         const tempCtx = tempCanvas.getContext('2d');
-
         tempCtx.drawImage(this._canvas, 0, 0);
 
         this._canvas.width = this._size[0];
         this._canvas.height = this._size[1];
-
         this._ctx.fillStyle = this._bg;
         this._ctx.fillRect(0, 0, this._size[0], this._size[1]);
-
         this._ctx.drawImage(tempCanvas, 0, 0);
 
-        this.rainCount = Math.floor(this._size[0] * this._size[1] / (((this._charSize[0] + this._charSize[1]) / 3) ** 2 * this._densityFactor));
-        this._particles.sort((a, b) => a['x'] - b['x']);
+        this._adjustParticleCount();
+    }
+
+    _adjustParticleCount() {
+        const avgCharSize = (this._charSize[0] + this._charSize[1]) / 3;
+        this.rainCount = Math.floor(this._size[0] * this._size[1] / (avgCharSize ** 2 * this._densityFactor));
+
+        this._particles.sort((a, b) => a.x - b.x);
         while (this._particles.length > this.rainCount) {
             this._particles.pop();
         }
@@ -115,21 +122,30 @@ class RainChar {
 
     _play(timestamp = 0) {
         if (this._isPaused) return;
+
         this.elapsed = timestamp - this._lastFrameTime;
         if (this.elapsed >= this._frameInterval) {
             this._lastFrameTime = timestamp;
-            this._ctx.globalAlpha = 0.25;
-            this._ctx.fillStyle = this._bg;
-            this._ctx.fillRect(0, 0, this._size[0], this._size[1]);
-            this._ctx.globalAlpha = 1;
+            this._clearCanvas();
             this._updateParticles();
-            this._ctx.fillStyle = this._fg;
-            this._particles.forEach((particle) => {
-                this._ctx.font = particle['size'] + 'px ' + this._font;
-                this._ctx.fillText(this._getRandomChar(), particle['x'], particle['y']);
-            });
+            this._drawParticles();
         }
         requestAnimationFrame(this._play);
+    }
+
+    _clearCanvas() {
+        this._ctx.globalAlpha = 0.25;
+        this._ctx.fillStyle = this._bg;
+        this._ctx.fillRect(0, 0, this._size[0], this._size[1]);
+        this._ctx.globalAlpha = 1;
+    }
+
+    _drawParticles() {
+        this._ctx.fillStyle = this._fg;
+        this._particles.forEach(particle => {
+            this._ctx.font = `${particle.size}px ${this._font}`;
+            this._ctx.fillText(this._getRandomChar(), particle.x, particle.y);
+        });
     }
 
     _getRandomChar() {
@@ -143,6 +159,11 @@ class RainChar {
         return Math.floor(biasedRandom * (this._charSize[1] - this._charSize[0] + 1)) + this._charSize[0];
     }
 
+    /**
+     * Fresh starts the effect animation. It also acts as a restart.
+     *
+     * @return {void} No return value
+     */
     start() {
         this._isPaused = false;
         this._particles = [];
@@ -151,6 +172,11 @@ class RainChar {
         this._play();
     }
 
+    /**
+     * Toggles the paused state of the animation.
+     *
+     * @return {void} No return value
+     */
     pause() {
         this._isPaused = !this._isPaused;
         if (!this._isPaused) {
@@ -158,6 +184,11 @@ class RainChar {
         }
     }
 
+    /**
+     * Stops the effect and clears the canvas.
+     *
+     * @return {void} No return value
+     */
     stop() {
         this._isPaused = true;
         this._ctx.clearRect(0, 0, ...this._size);
