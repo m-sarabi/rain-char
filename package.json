@@ -1,6 +1,6 @@
 {
   "name": "rain-char",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A lightweight JavaScript library that creates a 'Matrix-style' falling character effect with depth. Customize the font, colors, character range, and animation speed for dynamic visual effects on your webpage.",
   "main": "index.js",
   "browser": "src/rain-char.js",
