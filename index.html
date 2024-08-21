@@ -7,6 +7,54 @@
     <script src="src/rain-char.js"></script>
 </head>
 <body>
+<div id="controls">
+    <div class="row">
+        <label>Font</label>
+        <select id="font">
+            <option value="Verdana">Verdana</option>
+            <option value="cursive">cursive</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Brush Script MT">Brush Script MT</option>
+        </select>
+    </div>
+    <div class="row">
+        <label>Character Size</label>
+        <div>
+            <input type="number" min="5" max="100" id="char-size1" value="10">
+            <input type="number" min="5" max="100" id="char-size2" value="40">
+        </div>
+    </div>
+    <div class="row">
+        <label>Character Range</label>
+        <select id="char-range">
+            <option value="0x0021 0x007e">Basic Latin</option>
+            <option value="0xc0 0x2af">Extended Latin</option>
+            <option value="0x3041 0x30ff">Hiragana/Katakana</option>
+            <option value="0x2800 0x28ff">Braille Patterns</option>
+            <option value="0x1f300 0x1f64f">Emojis</option>
+        </select>
+    </div>
+    <div class="row">
+        <label>Background</label>
+        <input type="color" value="#222" id="bg-color">
+    </div>
+    <div class="row">
+        <label>Foreground</label>
+        <input type="color" value="#ffff00" id="fg-color">
+    </div>
+    <div class="row">
+        <label>Speed (FPS)</label>
+        <input type="number" value="30" id="fps" min="1" max="100">
+    </div>
+    <div class="row">
+        <label>Density Factor</label>
+        <input type="number" value="30" id="density" min="1" max="100">
+    </div>
+    <div class="row">
+        <label>Resize the effect screen with the little handle at bottom right</label>
+    </div>
+</div>
 <div id="effect"></div>
 </body>
 <script src="demo/script.js"></script>

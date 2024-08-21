@@ -29,7 +29,7 @@ class RainChar {
             bg = '#222',
             fg = 'yellow',
             id,
-            fps = 40,
+            fps = 30,
             densityFactor = 10,
             parentId: parentId,
         } = {},
@@ -45,7 +45,6 @@ class RainChar {
         this._densityFactor = densityFactor || 4;
 
         this._lastFrameTime = 0;
-        this._frameInterval = 1000 / this._fps;
 
         this._particles = [];
         this._canvas = document.createElement('canvas');
@@ -148,6 +147,7 @@ class RainChar {
         this._isPaused = false;
         this._particles = [];
         this._onResize();
+        this._frameInterval = 1000 / this._fps;
         this._play();
     }
 

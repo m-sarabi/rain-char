@@ -37,7 +37,7 @@ and you can add an `id` to each effect individually to style them with CSS
 | `bg`            | Background color of the canvas                  | string           | "#222"           |
 | `fg`            | Color of the characters                         | string           | "yellow"         |
 | `id`            | The id to be assigned to the canvas element     | string           |                  |
-| `fps`           | Maximum fps (higher means faster rain fall)     | number           | 40               |
+| `fps`           | Maximum fps (higher means faster rain fall)     | number           | 30               |
 | `densityFactor` | How dense the rain fall is (Lower means denser) | number           | 10               |
 | `parentId`      | id of the element which canvas is appended to   | string           | body element     |
 

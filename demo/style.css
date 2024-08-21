@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     width: 100%;
     height: 100vh;
@@ -6,7 +10,9 @@ body {
     display: flex;
     justify-content: start;
     align-items: start;
-    font-family: monospace;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
 #rain {
@@ -20,7 +26,64 @@ body {
     width: 600px;
     height: 600px;
     resize: both;
-    overflow: hidden;
     border-radius: 10px;
-    border: 4px solid red;
+    overflow: hidden;
+    border: 2px solid #1e88e5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    background-color: #1c1c1c;
+    position: relative;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    margin-right: 20px;
+}
+
+input, select {
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    font-size: 14px;
+    height: 36px;
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+input[type=color] {
+    padding: 0;
+}
+
+.row > * {
+    width: 100px;
+}
+
+.row > div > * {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+    margin: 5px 0;
+    width: 100%;
+    background-color: #2a2a2a;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: 600;
+    color: #bdbdbd;
+    flex: 1;
 }
