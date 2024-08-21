@@ -33,7 +33,7 @@ rain.start();
 ## Demo
 
 [m-sarabi.ir/rain-char](https://m-sarabi.ir/rain-char/)
-![A matrix-style image generator interface with options for font, character size, character range, background, foreground, speed, density factor, and resizing the effect screen.](assets/banner.png?raw=true)
+![A matrix-style image generator interface with options for font, character size, character range, background, foreground, speed, density factor, and resizing the effect screen.](assets/demo-screenshot.png?raw=true)
 
 ## Customization
 
