@@ -7,6 +7,13 @@ with full control over customizability.
 
 ## Usage
 
+Use CDN:
+
+```html
+
+<script src="https://cdn.jsdelivr.net/npm/rain-char"></script>
+```
+
 Create an instance of the effect (all options are optional)
 
 ```javascript
@@ -30,17 +37,17 @@ and you can add an `id` to each effect individually to style them with CSS
 
 ### Options
 
-| Name            | Description                                     | Type             | Default value    |
-|-----------------|-------------------------------------------------|------------------|------------------|
-| `font`          | The font used for Rain Characters               | string           | "monospace"      |
-| `charSize`      | The lower and upper limit for the font size     | [number, number] | [10, 40]         |
-| `charRange`     | The range of Unicode character                  | [number, number] | [0x0021, 0x007e] |
-| `bg`            | Background color of the canvas                  | string           | "#222"           |
-| `fg`            | Color of the characters                         | string           | "yellow"         |
-| `id`            | The id to be assigned to the canvas element     | string           |                  |
+| Name            | Description                                    | Type             | Default value    |
+|-----------------|------------------------------------------------|------------------|------------------|
+| `font`          | The font used for Rain Characters              | string           | "monospace"      |
+| `charSize`      | The lower and upper limit for the font size    | [number, number] | [10, 40]         |
+| `charRange`     | The range of Unicode character                 | [number, number] | [0x0021, 0x007e] |
+| `bg`            | Background color of the canvas                 | string           | "#222"           |
+| `fg`            | Color of the characters                        | string           | "yellow"         |
+| `id`            | The id to be assigned to the canvas element    | string           |                  |
 | `fps`           | Maximum fps (higher means faster rainfall)     | number           | 30               |
 | `densityFactor` | How dense the rainfall is (Lower means denser) | number           | 10               |
-| `parentId`      | id of the element which canvas is appended to   | string           | body element     |
+| `parentId`      | id of the element which canvas is appended to  | string           | body element     |
 
 ### Methods
 
