@@ -30,6 +30,11 @@ To start the effect call the `start` method
 rain.start();
 ```
 
+## Demo
+
+[m-sarabi.ir/rain-char](https://m-sarabi.ir/rain-char/)
+![A matrix-style image generator interface with options for font, character size, character range, background, foreground, speed, density factor, and resizing the effect screen.](assets/banner.png?raw=true)
+
 ## Customization
 
 You can customize the effect however you like with the options provided,
