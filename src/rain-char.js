@@ -73,7 +73,7 @@ class RainChar {
     _newParticle() {
         return {
             x: Math.random() * this._size[0],
-            y: -Math.random() * this._size[1],
+            y: -Math.random() * this._size[1] * 2,
             size: this._getRandomDistance(),
         };
     }
