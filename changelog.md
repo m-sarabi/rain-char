@@ -2,6 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
+<!--
 ## [Unreleased]
 
 ### Added
@@ -11,6 +12,14 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 ### Removed
+-->
+
+## [1.2.0] - 2024-08-21
+
+### Fixed
+
+- Increased the new particle vertical offset to fix batch falling on first iterations.
+    - Most obvious on a big canvas with small character size
 
 ## [1.1.0] - 2024-08-21
 
