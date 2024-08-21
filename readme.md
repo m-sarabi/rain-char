@@ -1,5 +1,7 @@
 # RainChar - Customizable Matrix-Style Rain Effect
 
+![A dark background with flowing streams of Japanese characters in and yellow cascading downwards.](assets/banner.png)
+
 RainChar is an animation effect written in JavaScript to create a Matrix-Style effect
 with full control over customizability.
 
