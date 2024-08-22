@@ -14,6 +14,19 @@ All notable changes to this project will be documented in this file.
 ### Removed
 -->
 
+## [1.3.0] - 2024-08-22
+
+### Added
+
+- Getters and setters for `font`, `charSize`, `charRange`, `bg`, `fg`, `fps`, and `densityFactor`
+- The ability to smoothly change the values above without restarting the effect
+  - Check the demo for a demonstration
+- Ability to use multiple character ranges for `charRange` as a list of ranges, for example, [[0x3041, 0x3096], [0x30a1, 0x30f6]]
+
+### Changed
+
+- Character ranges are created during initialization for better performance.
+
 ## [1.2.0] - 2024-08-21
 
 ### Fixed
