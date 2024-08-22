@@ -12,7 +12,7 @@ class RainChar {
      * @param {Object} options Configuration options for the rain effect.
      * @param {string} [options.font='monospace'] The font used for raining characters.
      * @param {[number, number]} [options.charSize=[10, 40]] The upper and lower limit for the font size.
-     * @param {[number, number]} [options.charRange=[0x0021, 0x007e]] The range of Unicode character codes to be used.
+     * @param {[number, number] | [number, number][]} [options.charRange=[0x0021, 0x007e]] The range of Unicode character codes to be used.
      * @param {string} [options.bg='#222'] Background color.
      * @param {string} [options.fg='yellow'] Font color.
      * @param {string} [options.id] ID of the canvas element.
@@ -41,6 +41,7 @@ class RainChar {
         this._fps = fps || 40;
         this._densityFactor = densityFactor || 4;
 
+        this._getCharCodes();
         this._initializeCanvas(id, parentId);
         this._initializeProperties();
         this._setupResizeObserver();
@@ -111,7 +112,6 @@ class RainChar {
         const avgCharSize = (this._charSize[0] + this._charSize[1]) / 3;
         this.rainCount = Math.floor(this._size[0] * this._size[1] / (avgCharSize ** 2 * this._densityFactor));
 
-        this._particles.sort((a, b) => a.x - b.x);
         while (this._particles.length > this.rainCount) {
             this._particles.pop();
         }
@@ -148,9 +148,16 @@ class RainChar {
         });
     }
 
+    _getCharCodes() {
+        if (Array.isArray(this._charRange[0])) {
+            this._charCodes = this._charRange.map(range => [...Array(range[1] - range[0] + 1).keys()].map(x => x + range[0])).flat();
+        } else {
+            this._charCodes = [...Array(this._charRange[1] - this._charRange[0] + 1).keys()].map(x => x + this._charRange[0]);
+        }
+    }
+
     _getRandomChar() {
-        const code = Math.floor(Math.random() * (this._charRange[1] - this._charRange[0] + 1)) + this._charRange[0];
-        return String.fromCodePoint(code);
+        return String.fromCodePoint(this._charCodes[Math.floor(Math.random() * this._charCodes.length)]);
     }
 
     _getRandomDistance() {
