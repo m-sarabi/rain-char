@@ -193,4 +193,66 @@ class RainChar {
         this._isPaused = true;
         this._ctx.clearRect(0, 0, ...this._size);
     }
+
+    // Setters
+    set font(font) {
+        this._font = font;
+    }
+
+    set charSize(charSize) {
+        this._charSize = charSize;
+        this._adjustParticleCount();
+    }
+
+    set charRange(charRange) {
+        this._charRange = charRange;
+        this._getCharCodes();
+    }
+
+    set bg(bg) {
+        this._bg = bg;
+    }
+
+    set fg(fg) {
+        this._fg = fg;
+    }
+
+    set fps(fps) {
+        this._fps = fps;
+        this._frameInterval = 1000 / this._fps;
+    }
+
+    set densityFactor(densityFactor) {
+        this._densityFactor = densityFactor;
+        this._adjustParticleCount();
+    }
+
+    // Getters
+    get font() {
+        return this._font;
+    }
+
+    get charSize() {
+        return this._charSize;
+    }
+
+    get charRange() {
+        return this._charRange;
+    }
+
+    get bg() {
+        return this._bg;
+    }
+
+    get fg() {
+        return this._fg;
+    }
+
+    get fps() {
+        return this._fps;
+    }
+
+    get densityFactor() {
+        return this._densityFactor;
+    }
 }
