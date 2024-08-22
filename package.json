@@ -6,7 +6,8 @@
   "browser": "src/rain-char.js",
   "files": [
     "/src",
-    "/dist"
+    "/dist",
+    "changelog.md"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
