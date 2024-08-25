@@ -4,7 +4,7 @@ const rain = new RainChar({
     font: 'Verdana',
     parentId: 'effect',
     // charRange: [[0x0030, 0x0039], [0x3041, 0x3096]],
-    charRange: [[0x0021, 0x007e]],
+    charRange: [[0x0041, 0x0042]],
 });
 rain.start();
 
@@ -51,4 +51,10 @@ document.getElementById('fps').addEventListener('input', function () {
 document.getElementById('density').addEventListener('input', function () {
     this.value = clamp(Number(this.value), Number(this.getAttribute('min')), Number(this.getAttribute('max')));
     rain.densityFactor = this.value;
+});
+
+// Event listener for density factor change
+document.getElementById('trail').addEventListener('input', function () {
+    this.value = clamp(Number(this.value), Number(this.getAttribute('min')), Number(this.getAttribute('max')));
+    rain.trailMultiplier = this.value;
 });
