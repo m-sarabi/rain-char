@@ -45,17 +45,20 @@ Most options (except for id and parentId) can be adjusted seamlessly at any time
 
 ### Options
 
-| Name            | Description                                                  | Type                                       | Default value    |
-|-----------------|--------------------------------------------------------------|--------------------------------------------|------------------|
-| `font`          | The font used for Rain Characters                            | string                                     | "monospace"      |
-| `charSize`      | The lower and upper limit for the font size                  | [number, number]                           | [10, 40]         |
-| `charRange`     | The range of Unicode character, or<br> a list of such ranges | [number, number] or <br>[number, number][] | [0x0021, 0x007e] |
-| `bg`            | Background color of the canvas                               | string                                     | "#222"           |
-| `fg`            | Color of the characters                                      | string                                     | "yellow"         |
-| `id`            | The id to be assigned to the canvas element                  | string                                     |                  |
-| `fps`           | Maximum fps (higher means faster rainfall)                   | number                                     | 30               |
-| `densityFactor` | How dense the rainfall is (Lower means denser)               | number                                     | 10               |
-| `parentId`      | id of the element which canvas is appended to                | string                                     | body element     |
+| Name              | Description                                                  | Type                                       | Default value    |
+|-------------------|--------------------------------------------------------------|--------------------------------------------|------------------|
+| `font`            | The font used for Rain Characters                            | string                                     | "monospace"      |
+| `charSize`        | The lower and upper limit for the font size                  | [number, number]                           | [10, 40]         |
+| `charRange`       | The range of Unicode character, or<br> a list of such ranges | [number, number] or <br>[number, number][] | [0x0021, 0x007e] |
+| `bg`              | Background color of the canvas                               | string                                     | "#222"           |
+| `fg`              | Color of the characters                                      | string                                     | "yellow"         |
+| `id`              | The id to be assigned to the canvas element                  | string                                     |                  |
+| `fps`             | Maximum fps (higher means faster rainfall)                   | number                                     | 30               |
+| `densityFactor`   | How dense the rainfall is (Lower means denser)               | number                                     | 10               |
+| `trailMultiplier` | Defines the length of the trail. Higher means shorter trail  | number                                     | 1                |
+| `charSpacing`     | Defines the space between characters (1 means one character) | number                                     | 1                |
+| `charChangeFreq`  | Defines the probability of characters changing (0% - 100%)   | number                                     | 1                |
+| `parentId`        | id of the element which canvas is appended to                | string                                     | body element     |
 
 ### Methods
 
@@ -64,6 +67,11 @@ Most options (except for id and parentId) can be adjusted seamlessly at any time
 | `start` | Fresh starts the effect animation. It also acts as a restart |
 | `stop`  | Stops the effect and clears the canvas.                      |
 | `pause` | Pause/Play the animation.                                    |
+
+
+By playing with the options above, you can create a variety of effects.
+
+An example snow effect:
 
 ## Changelog
 
