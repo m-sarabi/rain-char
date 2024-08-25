@@ -53,8 +53,14 @@ document.getElementById('density').addEventListener('input', function () {
     rain.densityFactor = this.value;
 });
 
-// Event listener for density factor change
+// Event listener for trail multiplier change
 document.getElementById('trail').addEventListener('input', function () {
     this.value = clamp(Number(this.value), Number(this.getAttribute('min')), Number(this.getAttribute('max')));
     rain.trailMultiplier = this.value;
+});
+
+// Event listener for character spacing change
+document.getElementById('char-spacing').addEventListener('input', function () {
+    this.value = clamp(Number(this.value), Number(this.getAttribute('min')), Number(this.getAttribute('max')));
+    rain.charSpacing = this.value;
 });
