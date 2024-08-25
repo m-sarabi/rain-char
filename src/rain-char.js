@@ -20,6 +20,7 @@ class RainChar {
      * @param {number} [options.densityFactor=10] Defines how dense the rain falls; lower value means more characters.
      * @param {number} [trailMultiplier=1] Defines the length of the trail; lower value means longer trail.
      * @param {number} [charSpacing=1] Defines the gap between characters; lower value means less gap.
+     * @param {number} [charChangeFreq=1] Defines the frequency of character change; lower value means less frequent character change. Must be between 0 and 1.
      * @param {string} [options.parentId] The ID of the parent element. If defined, the canvas will be appended to that element as a child.
      */
     constructor(
@@ -34,6 +35,7 @@ class RainChar {
             densityFactor = 10,
             trailMultiplier = 1,
             charSpacing = 1,
+            charChangeFreq = 1,
             parentId,
         } = {}) {
         this._font = font;
@@ -46,6 +48,7 @@ class RainChar {
         this._densityFactor = densityFactor || 4;
         this._trailMultiplier = trailMultiplier || 1;
         this._charSpacing = charSpacing || 1;
+        this._charChangeFreq = Math.max(0, Math.min(1, charChangeFreq)) || 1;
 
         this._getCharCodes();
         this._initializeCanvas(id, parentId);
@@ -82,6 +85,7 @@ class RainChar {
             x: Math.random() * this._size[0],
             y: -Math.random() * this._size[1] * 2,
             size: this._getRandomDistance(),
+            char: this._getRandomChar(),
         };
     }
 
@@ -150,7 +154,8 @@ class RainChar {
         this._ctx.fillStyle = this._fg;
         this._particles.forEach(particle => {
             this._ctx.font = `${particle.size}px ${this._font}`;
-            this._ctx.fillText(this._getRandomChar(), particle.x, particle.y);
+            if (Math.random() < this._charChangeFreq) particle.char = this._getRandomChar();
+            this._ctx.fillText(particle.char, particle.x, particle.y);
         });
     }
 
@@ -178,7 +183,6 @@ class RainChar {
      * @return {void} No return value
      */
     start() {
-        console.log('test')
         this._isPaused = false;
         this._particles = [];
         this._onResize();
@@ -249,6 +253,10 @@ class RainChar {
         this._charSpacing = charSpacing;
     }
 
+    set charChangeFreq(charChangeFreq) {
+        this._charChangeFreq = charChangeFreq;
+    }
+
     // Getters
     get font() {
         return this._font;
@@ -284,5 +292,9 @@ class RainChar {
 
     get charSpacing() {
         return this._charSpacing;
+    }
+
+    get charChangeFreq() {
+        return this._charChangeFreq;
     }
 }
