@@ -1,3 +1,4 @@
+[![](https://data.jsdelivr.com/v1/package/npm/rain-char/badge?style=rounded)](https://www.jsdelivr.com/package/npm/rain-char)
 # RainChar - Customizable Matrix-Style Rain Effect
 
 ![A dark background with flowing streams of Japanese characters in and yellow cascading downwards.](assets/banner.png?raw=true)
