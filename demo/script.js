@@ -3,9 +3,7 @@ const rain = new RainChar({
     id: 'rain',
     font: 'Verdana',
     parentId: 'effect',
-    // charRange: [[0x0030, 0x0039], [0x3041, 0x3096]],
-    charRange: [[0x0041, 0x0042]],
-    charChangeFreq: 0.1,
+    charRange: [0x0021, 0x007e],
 });
 rain.start();
 
