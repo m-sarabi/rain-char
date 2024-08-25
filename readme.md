@@ -71,7 +71,9 @@ Most options (except for id and parentId) can be adjusted seamlessly at any time
 
 By playing with the options above, you can create a variety of effects.
 
-An example snow effect:
+A snow effect example:
+
+https://github.com/user-attachments/assets/f07cb874-2c58-47f5-89f2-d167d21e8034
 
 ## Changelog
 
