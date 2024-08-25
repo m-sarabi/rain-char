@@ -19,6 +19,7 @@ class RainChar {
      * @param {number} [options.fps=30] Max frames per second.
      * @param {number} [options.densityFactor=10] Defines how dense the rain falls; lower value means more characters.
      * @param {number} [trailMultiplier=1] Defines the length of the trail; lower value means longer trail.
+     * @param {number} [charSpacing=1] Defines the gap between characters; lower value means less gap.
      * @param {string} [options.parentId] The ID of the parent element. If defined, the canvas will be appended to that element as a child.
      */
     constructor(
@@ -32,6 +33,7 @@ class RainChar {
             fps = 30,
             densityFactor = 10,
             trailMultiplier = 1,
+            charSpacing = 1,
             parentId,
         } = {}) {
         this._font = font;
@@ -43,6 +45,7 @@ class RainChar {
         this._fps = fps || 40;
         this._densityFactor = densityFactor || 4;
         this._trailMultiplier = trailMultiplier || 1;
+        this._charSpacing = charSpacing || 1;
 
         this._getCharCodes();
         this._initializeCanvas(id, parentId);
@@ -87,7 +90,7 @@ class RainChar {
             if (particle.y > this._size[1]) {
                 Object.assign(particle, this._newParticle());
             } else {
-                particle.y += particle.size;
+                particle.y += particle.size * this._charSpacing;
             }
         });
     }
@@ -175,6 +178,7 @@ class RainChar {
      * @return {void} No return value
      */
     start() {
+        console.log('test')
         this._isPaused = false;
         this._particles = [];
         this._onResize();
@@ -241,6 +245,10 @@ class RainChar {
         this._trailMultiplier = trailMultiplier;
     }
 
+    set charSpacing(charSpacing) {
+        this._charSpacing = charSpacing;
+    }
+
     // Getters
     get font() {
         return this._font;
@@ -272,5 +280,9 @@ class RainChar {
 
     get trailMultiplier() {
         return this._trailMultiplier;
+    }
+
+    get charSpacing() {
+        return this._charSpacing;
     }
 }
