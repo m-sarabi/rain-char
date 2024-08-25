@@ -18,6 +18,7 @@ class RainChar {
      * @param {string} [options.id] ID of the canvas element.
      * @param {number} [options.fps=30] Max frames per second.
      * @param {number} [options.densityFactor=10] Defines how dense the rain falls; lower value means more characters.
+     * @param {number} [trailMultiplier=1] Defines the length of the trail; lower value means longer trail.
      * @param {string} [options.parentId] The ID of the parent element. If defined, the canvas will be appended to that element as a child.
      */
     constructor(
@@ -30,6 +31,7 @@ class RainChar {
             id,
             fps = 30,
             densityFactor = 10,
+            trailMultiplier = 1,
             parentId,
         } = {}) {
         this._font = font;
@@ -40,6 +42,7 @@ class RainChar {
         this._isPaused = false;
         this._fps = fps || 40;
         this._densityFactor = densityFactor || 4;
+        this._trailMultiplier = trailMultiplier || 1;
 
         this._getCharCodes();
         this._initializeCanvas(id, parentId);
@@ -134,7 +137,7 @@ class RainChar {
     }
 
     _clearCanvas() {
-        this._ctx.globalAlpha = 0.25;
+        this._ctx.globalAlpha = 0.25 * this._trailMultiplier;
         this._ctx.fillStyle = this._bg;
         this._ctx.fillRect(0, 0, this._size[0], this._size[1]);
         this._ctx.globalAlpha = 1;
@@ -234,6 +237,10 @@ class RainChar {
         this._adjustParticleCount();
     }
 
+    set trailMultiplier(trailMultiplier) {
+        this._trailMultiplier = trailMultiplier;
+    }
+
     // Getters
     get font() {
         return this._font;
@@ -261,5 +268,9 @@ class RainChar {
 
     get densityFactor() {
         return this._densityFactor;
+    }
+
+    get trailMultiplier() {
+        return this._trailMultiplier;
     }
 }
