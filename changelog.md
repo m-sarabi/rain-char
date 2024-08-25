@@ -14,6 +14,17 @@ All notable changes to this project will be documented in this file.
 ### Removed
 -->
 
+
+## [Unreleased]
+
+### Added
+
+- `trailMultiplier` option to control the length of the trail.
+
+### Changed
+
+- Changed the default colors to black and limegreen
+
 ## [1.3.0] - 2024-08-22
 
 ### Added
