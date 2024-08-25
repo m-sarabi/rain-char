@@ -5,6 +5,7 @@ const rain = new RainChar({
     parentId: 'effect',
     // charRange: [[0x0030, 0x0039], [0x3041, 0x3096]],
     charRange: [[0x0041, 0x0042]],
+    charChangeFreq: 0.1,
 });
 rain.start();
 
@@ -63,4 +64,10 @@ document.getElementById('trail').addEventListener('input', function () {
 document.getElementById('char-spacing').addEventListener('input', function () {
     this.value = clamp(Number(this.value), Number(this.getAttribute('min')), Number(this.getAttribute('max')));
     rain.charSpacing = this.value;
+});
+
+// Event listener for character change frequency change
+document.getElementById('char-change').addEventListener('input', function () {
+    this.value = clamp(Number(this.value), Number(this.getAttribute('min')), Number(this.getAttribute('max')));
+    rain.charChangeFreq = this.value;
 });
