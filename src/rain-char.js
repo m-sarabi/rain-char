@@ -13,8 +13,8 @@ class RainChar {
      * @param {string} [options.font='monospace'] The font used for raining characters.
      * @param {[number, number]} [options.charSize=[10, 40]] The upper and lower limit for the font size.
      * @param {[number, number] | [number, number][]} [options.charRange=[0x0021, 0x007e]] The range of Unicode character codes to be used.
-     * @param {string} [options.bg='#222'] Background color.
-     * @param {string} [options.fg='yellow'] Font color.
+     * @param {string} [options.bg='black'] Background color.
+     * @param {string} [options.fg='limegreen'] Font color.
      * @param {string} [options.id] ID of the canvas element.
      * @param {number} [options.fps=30] Max frames per second.
      * @param {number} [options.densityFactor=10] Defines how dense the rain falls; lower value means more characters.
@@ -25,8 +25,8 @@ class RainChar {
             font = 'monospace',
             charSize = [10, 40],
             charRange = [0x0021, 0x007e],
-            bg = '#222',
-            fg = 'yellow',
+            bg = 'black',
+            fg = 'limegreen',
             id,
             fps = 30,
             densityFactor = 10,
