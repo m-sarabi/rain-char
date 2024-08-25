@@ -15,11 +15,14 @@ All notable changes to this project will be documented in this file.
 -->
 
 
-## [Unreleased]
+## [1.4.0] - 2024-08-25
 
 ### Added
 
 - `trailMultiplier` option to control the length of the trail.
+- `charSpacing` option to control the gap between characters.
+- `charChangeFreq` option to control the frequency of character change.
+  (chance of changing characters in each frame between 0% and 100%)
 
 ### Changed
 
