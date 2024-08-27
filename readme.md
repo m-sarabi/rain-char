@@ -1,5 +1,14 @@
-[![](https://data.jsdelivr.com/v1/package/npm/rain-char/badge?style=rounded)](https://www.jsdelivr.com/package/npm/rain-char)
+
 # RainChar - Customizable Matrix-Style Rain Effect
+
+![NPM Version](https://img.shields.io/npm/v/rain-char?style=flat)
+![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hy/rain-char?style=flat&color=%23ff5000)
+![NPM Downloads](https://img.shields.io/npm/dy/rain-char?style=flat)
+![npm bundle size](https://img.shields.io/bundlephobia/min/rain-char?style=flat)
+
+
+
+
 
 ![A dark background with flowing streams of Japanese characters in and yellow cascading downwards.](assets/banner.png?raw=true)
 
