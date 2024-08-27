@@ -6,10 +6,6 @@
 ![NPM Downloads](https://img.shields.io/npm/dy/rain-char?style=flat)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/rain-char?style=flat)
 
-
-
-
-
 ![A dark background with flowing streams of Japanese characters in and yellow cascading downwards.](assets/banner.png?raw=true)
 
 RainChar is an animation effect written in JavaScript to create a Matrix-Style effect
