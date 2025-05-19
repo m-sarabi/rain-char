@@ -36,6 +36,7 @@ class RainChar {
             trailMultiplier = 1,
             charSpacing = 1,
             charChangeFreq = 1,
+            preRender = false,
             parentId,
         } = {}) {
         this._font = font;
@@ -49,13 +50,56 @@ class RainChar {
         this._trailMultiplier = trailMultiplier || 1;
         this._charSpacing = charSpacing || 1;
         this._charChangeFreq = Math.max(0, Math.min(1, charChangeFreq)) || 1;
+        this._preRender = preRender;
 
         this._getCharCodes();
         this._initializeCanvas(id, parentId);
         this._initializeProperties();
         this._setupResizeObserver();
 
+        if (this._preRender) {
+            this._initCharCache();
+        }
+
         this._play = this._play.bind(this);
+    }
+
+    _initCharCache() {
+        this._charCache = new Map();
+
+        for (let charCode of this._charCodes) {
+            const char = String.fromCodePoint(charCode);
+            for (let size = this._charSize[0]; size < this._charSize[1] + 1; size++) {
+                this._charCache.set(`${char}__${size}`, this._createCharImage(char, size));
+            }
+        }
+    }
+
+    _createCharImage(char, size) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = size * 1.2;
+        canvas.height = size * 1.2;
+
+        ctx.fillStyle = this._fg;
+        ctx.font = `${size}px ${this._font}`;
+        ctx.textBaseline = 'top';
+        ctx.fillText(char, 0, 0);
+        return canvas;
+    }
+
+    _getCharImage(char, size) {
+        const key = `${char}__${size}`;
+        if (this._charCache.has(key)) {
+            window.mapLen = this._charCache.size;
+            return this._charCache.get(key);
+        }
+
+        const canvas = this._createCharImage(char, size);
+
+        this._charCache.set(key, canvas);
+        return canvas;
     }
 
     _initializeCanvas(id, parentId) {
@@ -153,9 +197,14 @@ class RainChar {
     _drawParticles() {
         this._ctx.fillStyle = this._fg;
         this._particles.forEach(particle => {
-            this._ctx.font = `${particle.size}px ${this._font}`;
             if (Math.random() < this._charChangeFreq) particle.char = this._getRandomChar();
-            this._ctx.fillText(particle.char, particle.x, particle.y);
+            if (this._preRender) {
+                const img = this._getCharImage(particle.char, particle.size);
+                this._ctx.drawImage(img, particle.x, particle.y);
+            } else {
+                this._ctx.font = `${particle.size}px ${this._font}`;
+                this._ctx.fillText(particle.char, particle.x, particle.y);
+            }
         });
     }
 
@@ -255,6 +304,12 @@ class RainChar {
 
     set charChangeFreq(charChangeFreq) {
         this._charChangeFreq = charChangeFreq;
+    }
+
+    set preRender(state) {
+        if (state && !this._preRender) {
+            this._initCharCache();
+        }
     }
 
     // Getters

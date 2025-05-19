@@ -14,6 +14,12 @@ All notable changes to this project will be documented in this file.
 ### Removed
 -->
 
+## [1.5.0]
+
+### Added
+
+- `preRender` option to pre render the character that could potentially improve the performance at the cost of slower
+  startup
 
 ## [1.4.0] - 2024-08-25
 
@@ -34,8 +40,9 @@ All notable changes to this project will be documented in this file.
 
 - Getters and setters for `font`, `charSize`, `charRange`, `bg`, `fg`, `fps`, and `densityFactor`
 - The ability to smoothly change the values above without restarting the effect
-  - Check the demo for a demonstration
-- Ability to use multiple character ranges for `charRange` as a list of ranges, for example, [[0x3041, 0x3096], [0x30a1, 0x30f6]]
+    - Check the demo for a demonstration
+- Ability to use multiple character ranges for `charRange` as a list of ranges, for
+  example, [[0x3041, 0x3096], [0x30a1, 0x30f6]]
 
 ### Changed
 
