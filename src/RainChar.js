@@ -1,4 +1,4 @@
-// import RainCharWorker from './rain-worker?worker&inline';
+import RainCharWorker from './rain-worker?worker&inline';
 
 /**
  * @typedef {object} RainCharSettings
@@ -64,8 +64,7 @@ class RainChar {
         this.resizeObserver = new ResizeObserver(this.handleResize.bind(this));
 
         // The class creates and manages its own worker
-        // this.worker = new RainCharWorker();
-        this.worker = new Worker('rain-worker.js');
+        this.worker = new RainCharWorker();
         this.worker.onmessage = this.handleWorkerMessage.bind(this);
 
         this.init();
