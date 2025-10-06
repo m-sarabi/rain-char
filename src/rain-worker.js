@@ -14,6 +14,8 @@
  * @property {number} y - The y-coordinate of the particle.
  * @property {number} size - The font size of the particle.
  * @property {string} char - The character value of the particle.
+ * @property {string} [lastDrawnChar] - The character that was last successfully drawn for this particle.
+ * @property {number} [lastDrawnSize] - The size of the last character that was successfully drawn for this particle.
  */
 
 /**
@@ -42,6 +44,7 @@
  * @property {number} atlasNextX - The x-coordinate for where to draw the next character.
  * @property {number} atlasNextY - The y-coordinate for where to draw the next character.
  * @property {number} atlasLineHeight - The height of the current line in the atlas.
+ * @property {Set<string>} cachingQueue - A queue of characters to be rendered to the atlas.
  */
 
 /** @type {WorkerState} */
@@ -61,6 +64,7 @@ let state = {
     atlasNextX: 0,
     atlasNextY: 0,
     atlasLineHeight: 0,
+    cachingQueue: new Set(),
 };
 
 /** @type {OffscreenCanvas | null} */
@@ -68,6 +72,7 @@ let offscreenCanvas = null;
 /** @type {OffscreenCanvasRenderingContext2D | null} */
 let ctx = null;
 
+const CACHE_BATCH_SIZE = 10;
 
 // --- Helper Functions ---
 
@@ -138,6 +143,7 @@ function initCharAtlas() {
     state.charAtlases = [];
     state.atlasContexts = [];
     state.charCache.clear();
+    state.cachingQueue.clear();
     createNewAtlas();
 }
 
@@ -209,40 +215,43 @@ function updateParticles() {
 }
 
 /**
- * Gets a character from the atlas, rendering it first if it's not already there.
- * If the current atlas is full, a new one is created automatically.
- * @param {string} char The character to render.
- * @param {number} size The font size.
- * @returns {AtlasCharInfo | null}
+ * Renders characters from the caching queue to the font atlas.
+ * This is done in batches to avoid blocking the animation loop for too long.
  */
-function getCharFromAtlas(char, size) {
-    const {font} = state.settings;
-    const key = `${char}__${size}`;
-    let cachedInfo = state.charCache.get(key);
+function processCachingQueue() {
+    if (state.cachingQueue.size === 0) return;
 
-    if (!cachedInfo) {
-        if (state.atlasContexts.length === 0) {
-            console.error("No atlas context available. This should not happen.");
-            return null;
+    for (let i = 0; i < CACHE_BATCH_SIZE && state.cachingQueue.size > 0; i++) {
+        const key = state.cachingQueue.values().next().value;
+        state.cachingQueue.delete(key);
+
+        const lastSeparatorIndex = key.lastIndexOf('__');
+        if (lastSeparatorIndex === -1) {
+            console.error(`Invalid cache key found in queue: "${key} Maybe report it if you see this message?"`);
+            continue; // Skip this malformed key
         }
+        const char = key.substring(0, lastSeparatorIndex);
+        const sizeStr = key.substring(lastSeparatorIndex + 2);
+
+        const size = parseInt(sizeStr, 10);
+        const { font } = state.settings;
+
+        if (state.atlasContexts.length === 0) continue;
 
         let currentCtx = state.atlasContexts[state.currentAtlasIndex];
         let currentAtlas = state.charAtlases[state.currentAtlasIndex];
 
-        // Measure the character
         currentCtx.font = `${size}px ${font}`;
         const metrics = currentCtx.measureText(char);
-        const charWidth = Math.ceil(metrics.width) || size / 2; // fallback width
+        const charWidth = Math.ceil(metrics.width) || size / 2;
         const charHeight = Math.ceil(metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent);
 
-        // Check for horizontal space, move to next line if needed
         if (state.atlasNextX + charWidth > currentAtlas.width) {
             state.atlasNextX = 0;
             state.atlasNextY += state.atlasLineHeight;
             state.atlasLineHeight = 0;
         }
 
-        // Check for vertical space, create new atlas if needed
         if (state.atlasNextY + charHeight > currentAtlas.height) {
             console.log('Font atlas is full. Creating a new one.');
             createNewAtlas();
@@ -252,7 +261,7 @@ function getCharFromAtlas(char, size) {
 
         currentCtx.fillText(char, state.atlasNextX, state.atlasNextY);
 
-        cachedInfo = {
+        const cachedInfo = {
             x: state.atlasNextX,
             y: state.atlasNextY,
             width: charWidth,
@@ -264,18 +273,46 @@ function getCharFromAtlas(char, size) {
         state.atlasNextX += charWidth;
         state.atlasLineHeight = Math.max(state.atlasLineHeight, charHeight);
     }
-    return cachedInfo;
+}
+
+/**
+ * It checks for a character in the atlas. If not found, it queues it for caching and returns null.
+ * @param {string} char The character to render.
+ * @param {number} size The font size.
+ * @returns {AtlasCharInfo | null}
+ */
+function getCharFromAtlas(char, size) {
+    const key = `${char}__${size}`;
+
+    // If it's already cached, return it immediately.
+    if (state.charCache.has(key)) {
+        return state.charCache.get(key);
+    }
+
+    // Otherwise, add it to the queue and return null for now.
+    state.cachingQueue.add(key);
+    return null;
 }
 
 /**
  * Draws all particles onto the offscreen canvas using the font atlas.
+ * If a particle's current character is not yet cached, it attempts to draw
+ * the last successfully rendered character for that particle to avoid gaps.
  */
 function drawParticles() {
     if (!ctx || state.charAtlases.length === 0) return;
 
     for (const p of state.particles) {
-        const charInfo = getCharFromAtlas(p.char, p.size);
+        let charInfo = getCharFromAtlas(p.char, p.size);
+        const currentCharacterIsCached = !!charInfo;
 
+        // If the current character is not cached, try to use the last drawn character as a fallback.
+        if (!currentCharacterIsCached && p.lastDrawnChar !== undefined) {
+            // We assume the fallback character is always in the cache, so we get it directly.
+            charInfo = state.charCache.get(`${p.lastDrawnChar}__${p.lastDrawnSize}`);
+        }
+
+        // If we have a character to draw (either the current one or a fallback)...
         if (charInfo) {
             const sourceAtlas = state.charAtlases[charInfo.atlasIndex];
             ctx.drawImage(
@@ -289,6 +326,12 @@ function drawParticles() {
                 charInfo.width,
                 charInfo.height,
             );
+
+            // we can save it as the new fallback for subsequent frames.
+            if (currentCharacterIsCached) {
+                p.lastDrawnChar = p.char;
+                p.lastDrawnSize = p.size;
+            }
         }
     }
 }
@@ -332,6 +375,8 @@ function animate(timestamp) {
     if (!state.isRunning) return;
 
     state.loopId = requestAnimationFrame(animate);
+
+    processCachingQueue();
 
     const elapsed = timestamp - state.lastFrameTime;
     const frameInterval = 1000 / state.settings.fps;

@@ -14,6 +14,11 @@ All notable changes to this project will be documented in this file.
 ### Removed
 -->
 
+## [2.1.0]
+
+### Changed
+-   Improved animation smoothness by implementing an asynchronous, batched process for rendering characters to the font atlas, preventing performance stutters.
+
 ## [2.0.0]
 
 ### Changed
