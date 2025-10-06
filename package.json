@@ -1,24 +1,39 @@
 {
   "name": "rain-char",
   "version": "1.5.0",
-  "description": "A lightweight JavaScript library that creates a 'Matrix-style' falling character effect with depth. Customize the font, colors, character range, and animation speed for dynamic visual effects on your webpage.",
-  "main": "index.js",
-  "browser": "src/rain-char.js",
+  "description": "A modern, performant 'Matrix-style' falling character effect using Web Workers and Canvas.",
+  "type": "module",
+  "main": "./dist/rain-char.umd.js",
+  "module": "./dist/rain-char.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/rain-char.es.js",
+      "require": "./dist/rain-char.umd.js"
+    }
+  },
+  "jsdelivr": "./dist/rain-char.umd.js",
   "files": [
-    "/src",
-    "/dist",
-    "changelog.md"
+    "dist"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "vite": "^7.1.9"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/m-sarabi/rain-char.git"
   },
   "keywords": [
+    "rain-char",
     "falling-characters",
+    "offscreencanvas",
     "visual-effects",
+    "matrix-effect",
+    "performance",
+    "web-worker",
     "javascript",
     "animation",
     "library",

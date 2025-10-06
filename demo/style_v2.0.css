@@ -1,0 +1,102 @@
+/* Basic reset and full-screen canvas styling */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+    font-family: monospace;
+}
+
+#matrix-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Styling for the control panel */
+.controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 15px;
+    background-color: rgba(10, 20, 10, 0.8);
+    color: #eee;
+    border-radius: 8px;
+    border: 1px solid limegreen;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    max-width: 320px;
+    backdrop-filter: blur(3px);
+}
+
+.controls h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: limegreen;
+    text-align: center;
+}
+
+.control-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.control-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.control-group label {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.control-group label small {
+    color: #888;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    background-color: #111;
+    color: limegreen;
+    border: 1px solid #333;
+    padding: 5px;
+    font-family: monospace;
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.inline-inputs {
+    display: flex;
+    gap: 5px;
+}
+
+.button-group {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-group button {
+    flex-grow: 1;
+    background-color: #222;
+    color: limegreen;
+    border: 1px solid limegreen;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: monospace;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.button-group button:hover {
+    background-color: limegreen;
+    color: #111;
+}

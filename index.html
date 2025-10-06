@@ -1,75 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>rain-char demo</title>
-    <link rel="stylesheet" href="demo/style_v1.4.0.css">
-    <script src="https://cdn.jsdelivr.net/npm/rain-char@1.4.0/src/rain-char.min.js"></script>
-<!--    <script src="src/rain-char.js"></script>-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Rain - Advanced Demo</title>
+    <link rel="stylesheet" href="./demo/style_v2.0.css">
+    <script src="https://cdn.jsdelivr.net/npm/rain-char@2.0.0"></script>
 </head>
 <body>
-<div id="controls">
-    <div class="row">
-        <label>Font</label>
-        <select id="font">
-            <option value="Verdana">Verdana</option>
-            <option value="cursive">cursive</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Brush Script MT">Brush Script MT</option>
-        </select>
-    </div>
-    <div class="row">
-        <label>Character Size</label>
-        <div>
-            <input type="number" min="5" max="100" id="char-size1" value="10">
-            <input type="number" min="5" max="100" id="char-size2" value="40">
+<canvas id="matrix-canvas"></canvas>
+
+<div class="controls">
+    <h3>RainChar Controls</h3>
+    <div class="control-grid">
+        <div class="button-group">
+            <button id="start-btn">Start</button>
+            <button id="pause-btn">Pause</button>
+            <button id="stop-btn">Stop</button>
         </div>
-    </div>
-    <div class="row">
-        <label>Character Range</label>
-        <select id="char-range">
-            <option value="[0x0021, 0x007e]">Basic Latin</option>
-            <option value="[[0x0021, 0x007e], [0x00a1, 0x02af]]">Extended Latin</option>
-            <option value="[[0x3041, 0x3096], [0x30a1, 0x30f6]]">Hiragana/Katakana</option>
-            <option value="[0x2800, 0x28ff]">Braille Patterns</option>
-            <option value="[0x1f300, 0x1f64f]">Emojis</option>
-            <option value="[[0x2731, 0x273d], [0x2744, 0x274b]]">Snow</option>
-        </select>
-    </div>
-    <div class="row">
-        <label>Background</label>
-        <input type="color" value="#222222" id="bg-color">
-    </div>
-    <div class="row">
-        <label>Foreground</label>
-        <input type="color" value="#32cd32" id="fg-color">
-    </div>
-    <div class="row">
-        <label>Speed (FPS)</label>
-        <input type="number" value="30" id="fps" min="1" max="100">
-    </div>
-    <div class="row">
-        <label>Density Factor</label>
-        <input type="number" value="10" id="density" min="1" max="100">
-    </div>
-    <div class="row">
-        <label>Trail Multiplier</label>
-        <input type="number" value="1" id="trail" min="0" max="4" step="0.1">
-    </div>
-    <div class="row">
-        <label>Char Spacing</label>
-        <input type="number" value="1" id="char-spacing" min="0.1" max="4" step="0.1">
-    </div>
-    <div class="row">
-        <label>Char Change Frequency</label>
-        <input type="number" value="1" id="char-change" min="0" max="1" step="0.1">
-    </div>
-    <div class="row">
-        <label>Resize the effect screen with the little handle at bottom right</label>
+
+        <div class="control-group">
+            <label for="density-input">Density</label>
+            <input type="number" id="density-input" min="0" max="1" step="1">
+        </div>
+
+        <div class="control-group">
+            <label for="trail-input">Trail Fade <small>(low=long)</small></label>
+            <input type="number" id="trail-input" min="0.1" max="5" step="0.1">
+        </div>
+
+        <div class="control-group">
+            <label for="fg-color">Foreground</label>
+            <input type="color" id="fg-color">
+        </div>
+
+        <div class="control-group">
+            <label for="bg-color">Background</label>
+            <input type="color" id="bg-color">
+        </div>
+
+        <div class="control-group full-width">
+            <label>Font Size (<label for="min-size-input">Min</label> / <label for="max-size-input">Max</label>)</label>
+            <div class="inline-inputs">
+                <input type="number" id="min-size-input" min="5" max="100">
+                <input type="number" id="max-size-input" min="5" max="100">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="spacing-input">Spacing</label>
+            <input type="number" id="spacing-input" min="0.1" max="5" step="0.1">
+        </div>
+
+        <div class="control-group">
+            <label for="change-freq-input">Change Freq.</label>
+            <input type="number" id="change-freq-input" min="0" max="1" step="0.05">
+        </div>
+
+        <div class="control-group full-width">
+            <label for="charset-select">Character Set</label>
+            <select id="charset-select">
+                <option value="kana">Hiragana & Katakana</option>
+                <option value="ascii">ASCII</option>
+                <option value="binary">Binary</option>
+                <option value="cyrillic">Cyrillic</option>
+                <option value="emoji">Emoji (Simple)</option>
+                <option value="numbers">Numbers</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="fps-input">Max FPS</label>
+            <input type="number" id="fps-input" min="5" max="120" step="1">
+        </div>
+
     </div>
 </div>
-<div id="effect"></div>
+
+<script src="./demo/script_v2.0.js"></script>
 </body>
-<script src="demo/script_v1.4.0.js"></script>
 </html>
