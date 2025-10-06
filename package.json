@@ -1,6 +1,6 @@
 {
   "name": "rain-char",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A modern, performant 'Matrix-style' falling character effect using Web Workers and Canvas.",
   "type": "module",
   "main": "./dist/rain-char.umd.js",
