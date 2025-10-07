@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+todo: add a clear, recalculate, or force character update method
+todo: fix the problem with very low trailDecay
+
 ### Fixed
 
 ### Changed
@@ -14,10 +17,25 @@ All notable changes to this project will be documented in this file.
 ### Removed
 -->
 
+## [2.2.0]
+
+### Fixed
+
+- Fixed incorrect character bounds in the atlas in some rare cases, that could lead to clipping and bleeding.
+
+### Changed
+
+- Changed setting defaults:
+  - `fps`: `30` to `60`
+  - `density`: `0.1` to `0.2`
+  - `trailDecay`: `0.1` to `0.2`
+  - `charSpacing`: `1` to `0.5`
+  - `charChangeFreq`: `1` to `0.25`
+
 ## [2.1.0]
 
 ### Changed
--   Improved animation smoothness by implementing an asynchronous, batched process for rendering characters to the font atlas, preventing performance stutters.
+- Improved animation smoothness by implementing an asynchronous, batched process for rendering characters to the font atlas, preventing performance stutters.
 
 ## [2.0.0]
 
