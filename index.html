@@ -1,33 +1,37 @@
 <!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matrix Rain - Advanced Demo</title>
     <link rel="stylesheet" href="./demo/style_v2.0.css">
-    <script src="https://cdn.jsdelivr.net/npm/rain-char@2.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rain-char@2.2.0"></script>
 </head>
 <body>
 <canvas id="matrix-canvas"></canvas>
 
-<div class="controls">
+<button id="toggle-controls" title="Toggle Controls">
+    <img src="./assets/gear.svg" alt="Show Controls">
+</button>
+
+<div class="controls" data-visible="true">
     <h3>RainChar Controls</h3>
-    <div class="control-grid">
-        <div class="button-group">
-            <button id="start-btn">Start</button>
-            <button id="pause-btn">Pause</button>
-            <button id="stop-btn">Stop</button>
-        </div>
 
-        <div class="control-group">
-            <label for="density-input">Density</label>
-            <input type="number" id="density-input" min="0" max="1" step="1">
-        </div>
+    <div class="control-group full-width">
+        <label for="preset-select">Presets</label>
+        <select id="preset-select">
+            <option value="custom">-- Custom --</option>
+            <option value="classic" selected>Classic Matrix</option>
+            <option value="binary">Binary Cascade</option>
+            <option value="glitch">Digital Glitch</option>
+            <option value="fire">Inferno</option>
+            <option value="snow">Snow</option>
+        </select>
+    </div>
 
-        <div class="control-group">
-            <label for="trail-input">Trail Fade <small>(low=long)</small></label>
-            <input type="number" id="trail-input" min="0.1" max="5" step="0.1">
-        </div>
+    <fieldset>
+        <legend>Appearance</legend>
 
         <div class="control-group">
             <label for="fg-color">Foreground</label>
@@ -40,43 +44,69 @@
         </div>
 
         <div class="control-group full-width">
-            <label>Font Size (<label for="min-size-input">Min</label> / <label for="max-size-input">Max</label>)</label>
+            <label>Font Size (<label id="min-size-label" for="min-size-input">10</label>
+                / <label id="max-size-label" for="max-size-input">40</label>)</label>
             <div class="inline-inputs">
-                <input type="number" id="min-size-input" min="5" max="100">
-                <input type="number" id="max-size-input" min="5" max="100">
+                <input type="range" id="min-size-input" min="5" max="100">
+                <input type="range" id="max-size-input" min="5" max="100">
             </div>
-        </div>
-
-        <div class="control-group">
-            <label for="spacing-input">Spacing</label>
-            <input type="number" id="spacing-input" min="0.1" max="5" step="0.1">
-        </div>
-
-        <div class="control-group">
-            <label for="change-freq-input">Change Freq.</label>
-            <input type="number" id="change-freq-input" min="0" max="1" step="0.05">
         </div>
 
         <div class="control-group full-width">
             <label for="charset-select">Character Set</label>
             <select id="charset-select">
-                <option value="kana">Hiragana & Katakana</option>
+                <option value="kana">Katakana + Hiragana</option>
                 <option value="ascii">ASCII</option>
                 <option value="binary">Binary</option>
                 <option value="cyrillic">Cyrillic</option>
                 <option value="emoji">Emoji (Simple)</option>
                 <option value="numbers">Numbers</option>
+                <option value="snow">Snow</option>
+                <option value="custom">Custom...</option>
             </select>
+            <input type="text" id="custom-charset-input" class="hidden" placeholder="Enter custom characters">
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Animation</legend>
+        <div class="control-group range-group">
+            <label for="density-input">Density</label>
+            <input type="range" id="density-input" min="0.01" max="1" step="0.01">
+            <input type="number" id="density-number" min="0.01" max="1" step="0.01">
         </div>
 
-        <div class="control-group">
+        <div class="control-group range-group">
+            <label for="trail-input">Trail Fade <small>(low=long)</small></label>
+            <input type="range" id="trail-input" min="0.01" max="1" step="0.01">
+            <input type="number" id="trail-number" min="0.01" max="1" step="0.01">
+        </div>
+
+        <div class="control-group range-group">
+            <label for="spacing-input">Spacing</label>
+            <input type="range" id="spacing-input" min="0.1" max="5" step="0.05">
+            <input type="number" id="spacing-number" min="0.1" max="5" step="0.05">
+        </div>
+
+        <div class="control-group range-group">
+            <label for="change-freq-input">Change Freq.</label>
+            <input type="range" id="change-freq-input" min="0" max="1" step="0.05">
+            <input type="number" id="change-freq-number" min="0" max="1" step="0.05">
+        </div>
+
+        <div class="control-group range-group">
             <label for="fps-input">Max FPS</label>
-            <input type="number" id="fps-input" min="5" max="120" step="1">
+            <input type="range" id="fps-input" min="5" max="120" step="1">
+            <input type="number" id="fps-number" min="5" max="120" step="1">
         </div>
+    </fieldset>
 
+    <div class="button-group">
+        <button id="start-btn">Start</button>
+        <button id="pause-btn">Pause</button>
+        <button id="stop-btn">Stop</button>
     </div>
 </div>
-
 <script src="./demo/script_v2.0.js"></script>
 </body>
 </html>
