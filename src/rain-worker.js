@@ -112,6 +112,14 @@ function getRandomSize() {
     return Math.floor(biasedRandom * (max - min + 1)) + min;
 }
 
+function reassignParticles() {
+    state.particles.forEach(particle => {
+        if (!state.charCodes.includes(particle.char)) {
+            particle.char = state.charCodes[Math.floor(Math.random() * state.charCodes.length)];
+        }
+    });
+}
+
 // --- Core Logic ---
 
 /**
@@ -121,12 +129,12 @@ function createNewAtlas() {
     const newAtlas = new OffscreenCanvas(2048, 2048);
     const newCtx = newAtlas.getContext('2d');
     if (!newCtx) {
-        console.error("Failed to get 2D context for a new atlas.");
+        console.error('Failed to get 2D context for a new atlas.');
         return;
     }
 
     newCtx.fillStyle = state.settings.fg;
-    newCtx.textBaseline = 'top';
+    newCtx.textBaseline = 'alphabetic';
 
     state.charAtlases.push(newAtlas);
     state.atlasContexts.push(newCtx);
@@ -227,14 +235,14 @@ function processCachingQueue() {
 
         const lastSeparatorIndex = key.lastIndexOf('__');
         if (lastSeparatorIndex === -1) {
-            console.error(`Invalid cache key found in queue: "${key} Maybe report it if you see this message?"`);
+            console.error(`Invalid cache key found in queue: "${key}" Maybe report it if you see this message?`);
             continue; // Skip this malformed key
         }
         const char = key.substring(0, lastSeparatorIndex);
         const sizeStr = key.substring(lastSeparatorIndex + 2);
 
         const size = parseInt(sizeStr, 10);
-        const { font } = state.settings;
+        const {font} = state.settings;
 
         if (state.atlasContexts.length === 0) continue;
 
@@ -243,8 +251,9 @@ function processCachingQueue() {
 
         currentCtx.font = `${size}px ${font}`;
         const metrics = currentCtx.measureText(char);
-        const charWidth = Math.ceil(metrics.width) || size / 2;
-        const charHeight = Math.ceil(metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent);
+        const charWidth = metrics.width || size / 2;
+        const charHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+        const drawY = state.atlasNextY + metrics.actualBoundingBoxAscent;
 
         if (state.atlasNextX + charWidth > currentAtlas.width) {
             state.atlasNextX = 0;
@@ -259,7 +268,7 @@ function processCachingQueue() {
             currentCtx.font = `${size}px ${font}`;
         }
 
-        currentCtx.fillText(char, state.atlasNextX, state.atlasNextY);
+        currentCtx.fillText(char, state.atlasNextX, drawY);
 
         const cachedInfo = {
             x: state.atlasNextX,
@@ -469,6 +478,7 @@ function handleSettingUpdate(key) {
         case 'charRange':
             generateCharCodes();
             initCharAtlas();
+            reassignParticles();
             break;
         case 'fg':
         case 'font':
