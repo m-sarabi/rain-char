@@ -94,18 +94,18 @@ rain.start();
 
 You can pass a settings object as the second argument to the `RainChar` constructor. Here are all the available options:
 
-| Option           | Type                                     | Default               | Description                                                                                     |
-|------------------|------------------------------------------|-----------------------|-------------------------------------------------------------------------------------------------|
-| `font`           | `string`                                 | `'monospace'`         | The CSS `font-family` to use for the characters.                                                |
-| `charSize`       | `[number, number]`                       | `[10, 40]`            | The minimum and maximum font size for the characters.                                           |
-| `charRange`      | `string` \| `[number, number]` \| `[][]` | `[0x0021, 0x007e]`    | Characters to use. Can be a string, a single Unicode range `[min, max]`, or an array of ranges. |
-| `bg`             | `string`                                 | `'black'`             | Background color in a CSS-compatible format.                                                    |
-| `fg`             | `string`                                 | `'limegreen'`         | Font color in a CSS-compatible format.                                                          |
-| `fps`            | `number`                                 | `30`                  | The maximum frames per second for the animation.                                                |
-| `density`        | `number`                                 | `0.1`                 | How dense the rain is (0 to 1). A larger value means more characters.                           |
-| `trailDecay`     | `number`                                 | `0.1`                 | The length of the character trails (0 to 1). A smaller value means a longer, more faded trail.  |
-| `charSpacing`    | `number`                                 | `1`                   | The vertical gap between characters in a stream. `1` means they are tightly packed.             |
-| `charChangeFreq` | `number`                                 | `1`                   | How often characters change (0 to 1). A lower value means characters change less frequently.    |
+| Option           | Type                                     | Default            | Description                                                                                     |
+|------------------|------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------|
+| `font`           | `string`                                 | `'monospace'`      | The CSS `font-family` to use for the characters.                                                |
+| `charSize`       | `[number, number]`                       | `[10, 40]`         | The minimum and maximum font size for the characters.                                           |
+| `charRange`      | `string` \| `[number, number]` \| `[][]` | `[0x0021, 0x007e]` | Characters to use. Can be a string, a single Unicode range `[min, max]`, or an array of ranges. |
+| `bg`             | `string`                                 | `'black'`          | Background color in a CSS-compatible format.                                                    |
+| `fg`             | `string`                                 | `'limegreen'`      | Font color in a CSS-compatible format.                                                          |
+| `fps`            | `number`                                 | `60`               | The maximum frames per second for the animation.                                                |
+| `density`        | `number`                                 | `0.2`              | How dense the rain is (0 to 1). A larger value means more characters.                           |
+| `trailDecay`     | `number`                                 | `0.2`              | The length of the character trails (0 to 1). A smaller value means a longer, more faded trail.  |
+| `charSpacing`    | `number`                                 | `0.5`              | The vertical gap between characters in a stream. `1` means they are tightly packed.             |
+| `charChangeFreq` | `number`                                 | `0.25`             | How often characters change (0 to 1). A lower value means characters change less frequently.    |
 
 ## 🕹️ API Methods
 

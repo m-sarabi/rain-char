@@ -44,11 +44,11 @@ class RainChar {
             charRange: [0x0021, 0x007e],
             bg: 'black',
             fg: 'limegreen',
-            fps: 30,
-            density: 0.1,
-            trailDecay: 0.1,
-            charSpacing: 1,
-            charChangeFreq: 1,
+            fps: 60,
+            density: 0.2,
+            trailDecay: 0.2,
+            charSpacing: 0.5,
+            charChangeFreq: 0.25,
             ...settings,
         };
 
